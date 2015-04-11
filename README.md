@@ -19,6 +19,49 @@ grunt.loadNpmTasks('grunt-project-structure');
 
 ## The "project_structure" task
 
+### JSON output example
+
+```json
+{
+    "folder-1_1": {
+        "folder-2_1": {
+            "folder-3_1": {
+                "folder-4_1": {
+                    "files_array": [
+                        "level-5_1.txt",
+                        "level-5_2.txt"
+                    ]
+                }
+            },
+            "files_array": [
+                "level-3_1.txt",
+                "level-3_2.txt"
+            ]
+        },
+        "folder-2_2": {
+            "files_array": [
+                "level-3_1.txt",
+                "level-3_2.txt"
+            ]
+        },
+        "files_array": [
+            "level-2_1.txt",
+            "level-2_2.txt"
+        ]
+    },
+    "folder-1_2": {
+        "files_array": [
+            "level-2_1.txt",
+            "level-2_2.txt"
+        ]
+    },
+    "files_array": [
+        "level-1_1.txt",
+        "level-1_2.txt"
+    ]
+}
+```
+
 ### Overview
 In your project's Gruntfile, add a section named `project_structure` to the data object passed into `grunt.initConfig()`.
 
@@ -37,47 +80,42 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.root
+Type: `String` 
+Default value: `./` 
+
+Define a directory to parse it's structure. `./` is a root directory of your project.
+
+#### options.outputJSON
 Type: `String`
-Default value: `',  '`
+Default value: `./grunt_project_structure/project_structure.json`
 
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
+Define directory and filename of JSON file with your project structure.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Empty task
+If you run `project_structure` task without any definitions, it'll create full structure of you project including all directories and files.
 
 ```js
 grunt.initConfig({
-  project_structure: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+	project_structure: {
+		options: {}
+	}
 });
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+The task below will parse `javascript` directory and create it's structure including all directories and files. 
 
 ```js
 grunt.initConfig({
   project_structure: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+		root: './javascript/',
+		outputJSON: './project_js_structure/js_structure.json'
+		
+	}
   },
 });
 ```
