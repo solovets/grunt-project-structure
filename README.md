@@ -71,8 +71,10 @@ grunt.initConfig({
     options: {
       // Task-specific options go here.
     },
-    your_target: {
-      // Target-specific file lists and/or options go here.
+    subtask_name: {
+		options: {
+			// Subtask-specific options go here.
+		}
     },
   },
 });
@@ -81,13 +83,13 @@ grunt.initConfig({
 ### Options
 
 #### options.root
-Type: `String` 
+Type: `String`  
 Default value: `./` 
 
 Define a directory to parse it's structure. `./` is a root directory of your project.
 
 #### options.outputJSON
-Type: `String`
+Type: `String`  
 Default value: `./grunt_project_structure/project_structure.json`
 
 Define directory and filename of JSON file with your project structure.
