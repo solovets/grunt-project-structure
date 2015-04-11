@@ -127,3 +127,28 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 _(Nothing yet)_
+
+## TODO
+
+### Common
+* add ignore list for directories;
+* add ignore list for files;
+* add default ignores (node_modules directory, Gruntfile.js file, etc.);
+* add ability to include default ignores in output.
+
+### JSON
+* create a true/false option to write or ignore writing JSON file;
+* add ability to change name of `files_array` key in JSON;
+* add validation of `outputJSON` option.
+
+### Markdown
+The result in markdown file should be:
+```
+├── folder/
+│   ├── folder/
+│   │   ├── file.ext
+│   │   └── file.ext
+│   ├── file.ext
+│   └── file.ext
+├── file.ext
+```
