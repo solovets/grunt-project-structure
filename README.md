@@ -88,6 +88,12 @@ Default value: `./`
 
 Define a directory to parse it's structure. `./` is a root directory of your project.
 
+#### options.writeJSON
+Type: `Boolen`  
+Default value: `false`
+
+If `true`, JSON file with project structure will be written. You can define filename with `outputJSON` option.
+
 #### options.outputJSON
 Type: `String`  
 Default value: `./grunt_project_structure/project_structure.json`
@@ -95,17 +101,6 @@ Default value: `./grunt_project_structure/project_structure.json`
 Define directory and filename of JSON file with your project structure.
 
 ### Usage Examples
-
-#### Empty task
-If you run `project_structure` task without any definitions, it'll create full structure of you project including all directories and files.
-
-```js
-grunt.initConfig({
-	project_structure: {
-		options: {}
-	}
-});
-```
 
 #### Custom Options
 The task below will parse `javascript` directory and create it's structure including all directories and files. 
@@ -115,6 +110,7 @@ grunt.initConfig({
   project_structure: {
     options: {
 		root: './javascript/',
+		writeJSON: true,
 		outputJSON: './project_js_structure/js_structure.json'
 		
 	}
@@ -134,10 +130,11 @@ _(Nothing yet)_
 * add ignore list for directories;
 * add ignore list for files;
 * add default ignores (node_modules directory, Gruntfile.js file, etc.);
-* add ability to include default ignores in output.
+* add ability to include default ignores in output;
+* add validation of paths.
 
 ### JSON
-* create a true/false option to write or ignore writing JSON file;
+* ~~create a true/false option to write or ignore writing JSON file~~;
 * add ability to change name of `files_array` key in JSON;
 * add validation of `outputJSON` option.
 
@@ -150,5 +147,5 @@ The result in markdown file should be:
 │   │   └── file.ext
 │   ├── file.ext
 │   └── file.ext
-├── file.ext
+└── file.ext
 ```

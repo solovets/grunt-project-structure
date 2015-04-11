@@ -21,12 +21,14 @@ module.exports = function (grunt) {
 		var options = this.options({
 			root: './',
 			output: './grunt_project_structure/project_structure.md',
+			writeJSON: false,
 			outputJSON: './grunt_project_structure/project_structure.json',
 			ignore_folders: [],
 			ignore_files: []
 		}),
 			root = options.root,
 			output = options.output,
+			writeJSON = options.writeJSON,
 			outputJSON = options.outputJSON,
 			
 			obj = {},
@@ -86,8 +88,10 @@ module.exports = function (grunt) {
 		}
 		
 		function write() {
-			grunt.file.write(outputJSON, JSON.stringify(obj, null, 4));
-			grunt.log.ok(outputJSON + ' file has been written.');
+			if (writeJSON) {
+				grunt.file.write(outputJSON, JSON.stringify(obj, null, 4));
+				grunt.log.ok(outputJSON + ' file has been written.');
+			}
 		}
 		
 		// check if the last character of `root` option is `/`

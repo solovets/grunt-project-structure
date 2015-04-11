@@ -1,7 +1,7 @@
 {
   "name": "grunt-project-structure",
   "description": "Generate markdown code of your project structure tree with Grunt.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/solovets/grunt-project-structure",
   "author": {
     "name": "Denis Solovets",
