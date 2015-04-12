@@ -20,16 +20,23 @@ module.exports = function (grunt) {
 		
 		var options = this.options({
 			root: './',
+			
 			output: './grunt_project_structure/project_structure.md',
+			
 			writeJSON: false,
 			outputJSON: './grunt_project_structure/project_structure.json',
+			filesArrayJSON: 'files_array',
+			
 			ignore_folders: [],
 			ignore_files: []
 		}),
 			root = options.root,
+			
 			output = options.output,
+			
 			writeJSON = options.writeJSON,
 			outputJSON = options.outputJSON,
+			filesArrayJSON = options.filesArrayJSON,
 			
 			obj = {},
 			
@@ -71,11 +78,11 @@ module.exports = function (grunt) {
 			}
 			
 			if (arr_f.length > 0) {
-				b.files_array = [];
+				b[filesArrayJSON] = [];
 				
 				for (i in arr_f) {
 					if (arr_f.hasOwnProperty(i)) {
-						b.files_array.push(arr_f[i]);
+						b[filesArrayJSON].push(arr_f[i]);
 					}
 				}
 			}

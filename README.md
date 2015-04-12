@@ -100,6 +100,12 @@ Default value: `./grunt_project_structure/project_structure.json`
 
 Define directory and filename of JSON file with your project structure.
 
+#### options.filesArrayJSON
+Type: `String`  
+Default value: `files_array`
+
+Define name of files array in output JSON.
+
 ### Usage Examples
 
 #### Custom Options
@@ -111,7 +117,8 @@ grunt.initConfig({
     options: {
 		root: './javascript/',
 		writeJSON: true,
-		outputJSON: './project_js_structure/js_structure.json'
+		outputJSON: './project_js_structure/js_structure.json',
+		filesArrayJSON: 'filesInThisDir'
 		
 	}
   },
@@ -135,8 +142,10 @@ _(Nothing yet)_
 
 ### JSON
 * ~~create a true/false option to write or ignore writing JSON file~~;
-* add ability to change name of `files_array` key in JSON;
-* add validation of `outputJSON` option.
+* ~~add ability to change name of `files_array` key in JSON~~;
+* add validation of `outputJSON` option;
+* add ability to include or not empty arrays of files in output JSON;
+* add ability to inclide or not empty directories in output JSON (and output md in future);
 
 ### Markdown
 The result in markdown file should be:
