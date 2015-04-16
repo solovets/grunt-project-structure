@@ -106,6 +106,20 @@ Default value: `files_array`
 
 Define name of files array in output JSON.
 
+#### options.spch
+Type: `String`  
+Default: `A-Za-z0-9-_\\.`  
+
+The valur of this option will be construed as a pattern for RegExp character set:  
+
+`new RegExp('^[A-Za-z0-9-_\.]*$')`
+
+It's an array of allowed characters and signs for names of directories and files.
+
+You can use letters `A-Z` and `a-z`, numbers `0-9`, signs `-`, `_` and `.`.
+
+If you'd like to asdd characters you should note that `\:*?"<>|` are illegal for directories and files names, so you'll see an error of `grunt-project-structure` task.
+
 ### Usage Examples
 
 #### Custom Options
@@ -138,12 +152,13 @@ _(Nothing yet)_
 * add ignore list for files;
 * add default ignores (node_modules directory, Gruntfile.js file, etc.);
 * add ability to include default ignores in output;
-* add validation of paths.
+* [done] ~~add validation of paths~~;
+* add ability to allow `~!#$%^&+=[]';,/{}` in dirs / files names via Boolen.
 
 ### JSON
-* ~~create a true/false option to write or ignore writing JSON file~~;
-* ~~add ability to change name of `files_array` key in JSON~~;
-* add validation of `outputJSON` option;
+* [done] ~~create a true/false option to write or ignore writing JSON file~~;
+* [done] ~~add ability to change name of `files_array` key in JSON~~;
+* [done] ~~add validation of `outputJSON` option~~;
 * add ability to include or not empty arrays of files in output JSON;
 * add ability to inclide or not empty directories in output JSON (and output md in future);
 
