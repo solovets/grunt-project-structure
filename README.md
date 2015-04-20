@@ -1,6 +1,10 @@
-# grunt-project-structure
+# grunt-project-structure [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 > Generate markdown code of your project structure tree with Grunt.js
+
+---
+##### WORK IS IN PROGRESS
+---
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -105,6 +109,12 @@ Type: `String`
 Default value: `files_array`
 
 Define name of files array in output JSON.
+
+#### filesArrayEmptyJSON
+Type: `Boolen`  
+Default value: `false`
+
+Set `true` if you need to include empty files arrays in output JSON (`"files_array": []`).
 
 #### options.spch
 Type: `String`  

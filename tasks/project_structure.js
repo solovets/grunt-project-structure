@@ -26,6 +26,7 @@ module.exports = function (grunt) {
 			writeJSON: false,
 			outputJSON: './grunt_project_structure/project_structure.json',
 			filesArrayJSON: 'files_array',
+			filesArrayEmptyJSON: false,
 			
 			spch: 'A-Za-z0-9-_\\.',
 			
@@ -40,6 +41,7 @@ module.exports = function (grunt) {
 			writeJSON = options.writeJSON,
 			outputJSON = options.outputJSON,
 			filesArrayJSON = options.filesArrayJSON,
+			filesArrayEmptyJSON = options.filesArrayEmptyJSON,
 			
 			spch = new RegExp('^[' + options.spch + ']*$'),
 			spchString,
@@ -135,9 +137,11 @@ module.exports = function (grunt) {
 				}
 			}
 			
-			if (arr_f.length > 0) {
+			if (arr_f.length > 0 || filesArrayEmptyJSON === true) {
 				b[filesArrayJSON] = [];
-				
+			}
+			
+			if (arr_f.length > 0) {
 				for (i in arr_f) {
 					if (arr_f.hasOwnProperty(i)) {
 						b[filesArrayJSON].push(arr_f[i]);
