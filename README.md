@@ -17,7 +17,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-project-structure');
 ```
 
-## The "project_structure" task
+## The "prostructure" task
 
 ### JSON output example
 
@@ -63,11 +63,11 @@ grunt.loadNpmTasks('grunt-project-structure');
 ```
 
 ### Overview
-In your project's Gruntfile, add a section named `project_structure` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `prostructure` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  project_structure: {
+  prostructure: {
     options: {
       // Task-specific options go here.
     },
@@ -96,7 +96,7 @@ If `true`, JSON file with project structure will be written. You can define file
 
 #### options.outputJSON
 Type: `String`  
-Default value: `./grunt_project_structure/project_structure.json`
+Default value: `./grunt_prostructure/prostructure.json`
 
 Define directory and filename of JSON file with your project structure.
 
@@ -127,7 +127,7 @@ The task below will parse `javascript` directory and create it's structure inclu
 
 ```js
 grunt.initConfig({
-  project_structure: {
+  prostructure: {
     options: {
 		root: './javascript/',
 		writeJSON: true,
