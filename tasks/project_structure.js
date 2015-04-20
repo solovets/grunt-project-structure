@@ -222,6 +222,15 @@ module.exports = function (grunt) {
 		testName(outputJSON, 'json');
 		
 		// =====================================================================
+		// check if `filesArrayEmptyJSON` is Boolen
+		// =====================================================================
+		
+		if (typeof filesArrayEmptyJSON !== 'boolean') {
+			filesArrayEmptyJSON = false;
+			grunt.log.error('Type of `filesArrayEmptyJSON` is not \'boolen\'. It has been set to `false`.');
+		}
+		
+		// =====================================================================
 		// check if `root` is a directory
 		// =====================================================================
 		
