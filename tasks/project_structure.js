@@ -13,15 +13,12 @@ var fs = require('fs'),
 
 module.exports = function (grunt) {
 
-	// Please see the Grunt documentation for more information regarding task
-	// creation: http://gruntjs.com/creating-tasks
-
-	grunt.registerMultiTask('project_structure', 'Generate markdown code of your project structure tree', function () {
+	grunt.registerMultiTask('prostructure', 'Generate markdown code of your project structure tree', function () {
 		
 		var options = this.options({
 			root: './',
-			
-			output: './grunt_project_structure/project_structure.md',
+            
+            output: './grunt_project_structure/project_structure.md',
 			
 			writeJSON: false,
 			outputJSON: './grunt_project_structure/project_structure.json',
@@ -77,7 +74,7 @@ module.exports = function (grunt) {
 						grunt.log.error('There\'re some illegal characters in `' + arr_p[i] +
 										'\nYou can use only ' + spchString + ' characters.' +
 										'\nTo allow some extra characters redefine option' +
-										'\n`spch` in `project_structure` task.' +
+										'\n`spch` in `prostructure` task.' +
 										'\nMay be allowed ~`!#$%^&+=[]\';,/{},' + /* ~`!#$%^&+=[]';,/{} */
 										'\ncan\'t be allowed \\:*?"<>|');         /* \:*?"<>| */
 						grunt.fail.fatal(fatal);

@@ -1,5 +1,5 @@
 # grunt-project-structure
-
+[![npm version](https://img.shields.io/npm/v/grunt-project-structure.svg?style=flat)](https://www.npmjs.com/package/grunt-project-structure) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 > Generate markdown code of your project structure tree with Grunt.js
 
 ## Getting Started
@@ -17,7 +17,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-project-structure');
 ```
 
-## The "project_structure" task
+## The "prostructure" task
 
 ### JSON output example
 
@@ -63,11 +63,11 @@ grunt.loadNpmTasks('grunt-project-structure');
 ```
 
 ### Overview
-In your project's Gruntfile, add a section named `project_structure` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `prostructure` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  project_structure: {
+  prostructure: {
     options: {
       // Task-specific options go here.
     },
@@ -127,7 +127,7 @@ The task below will parse `javascript` directory and create it's structure inclu
 
 ```js
 grunt.initConfig({
-  project_structure: {
+  prostructure: {
     options: {
 		root: './javascript/',
 		writeJSON: true,

@@ -22,7 +22,7 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports.project_structure = {
+exports.prostructure = {
   setUp: function(done) {
     // setup here if necessary
     done();
