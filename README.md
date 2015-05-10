@@ -88,6 +88,12 @@ Default value: `./`
 
 Define a directory to parse it's structure. `./` is a root directory of your project.
 
+#### options.writeMD
+Type: `Boolen`  
+Default value: `true`  
+
+If `true`, markdown file with project structure tree will be written.
+
 #### options.writeJSON
 Type: `Boolen`  
 Default value: `false`

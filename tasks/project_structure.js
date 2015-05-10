@@ -18,6 +18,8 @@ module.exports = function (grunt) {
 		var options = this.options({
 			root: './',
             
+            wrriteMD: true,
+            
             output: './grunt_project_structure/project_structure.md',
 			
 			writeJSON: false,
@@ -31,6 +33,8 @@ module.exports = function (grunt) {
 		}),
 			
 			root = options.root,
+            
+            wrriteMD = options.wrriteMD,
 			
 			output = options.output,
 			
@@ -43,10 +47,12 @@ module.exports = function (grunt) {
 			spchIllegal = /[\\:\*\?\"<>|]/,
 			
 			obj = {},
+            obj_md = {},
 			
 			fatal = 'Can\'t to proceed.',
 			path_start = './',
-			count = 0;
+			count = 0,
+            count_md = 0;
 		
 		function isEmpty(str) {
 			if (str.length === 0 || !str.trim()) {
@@ -99,6 +105,77 @@ module.exports = function (grunt) {
 			}
 		}
 		
+        function buildMD(p, chars, callback) {
+            
+            var arr_p = grunt.file.expand({cwd: p}, '*'),
+				arr_d = [],
+				arr_f = [],
+				arr_t = [],
+				i,
+				last;
+			
+			count_md += 1;
+            
+            if (arr_p.length > 0) {
+                arr_p.forEach(function (element) {
+                    if (grunt.file.isDir(p + element)) {
+                        arr_d.push(element);
+				    } else if (grunt.file.isFile(p + element)) {
+                        arr_f.push(element);
+				    }
+                });
+				
+				arr_t = arr_t.concat(arr_d).concat(arr_f);
+				last = arr_t[arr_t.length - 1];
+            }
+            
+            if (arr_d.length > 0) {
+                for (i in arr_d) {
+					if (arr_d.hasOwnProperty(i)) {
+						obj_md.tree.push({
+							"name": arr_d[i],
+							"type": "dir",
+							"depth": count_md,
+							"last": arr_d[i] === last ? true : false,
+							"intree": chars + (arr_d[i] === last ? '└── ' : '├── ')
+						});
+						buildMD(p + arr_d[i] + '/', chars + (arr_d[i] === last ? '    ' : '│   '), callback);
+					}
+				}
+            }
+            
+            if (arr_f.length > 0) {
+                for (i in arr_f) {
+                    if (arr_f.hasOwnProperty(i)) {
+                        obj_md.tree.push({
+                            "name": arr_f[i],
+                            "type": "file",
+							"depth": count_md,
+							"last": arr_f[i] === last ? true : false,
+							"intree": chars + (arr_f[i] === last ? '└── ' : '├── ')
+                        });
+                    }
+                }
+            }
+            
+			count_md -= 1;
+            if (count_md === 0 && callback) {
+				callback();
+			}
+        }
+        
+        function writeMD() {
+			var md_result = '', i;
+			
+			for (i in obj_md.tree) {
+				if (obj_md.tree.hasOwnProperty(i)) {
+					md_result += obj_md.tree[i].intree + obj_md.tree[i].name + '\n';
+				}
+			}
+			
+			grunt.log.write(md_result);
+        }
+        
 		function build(p, b, callback) {
 			
 			var arr_p = grunt.file.expand({cwd: p}, '*'),
@@ -223,7 +300,11 @@ module.exports = function (grunt) {
 							'Only name of existing directory expected.');
 			grunt.fail.fatal(fatal);
 		} else {
-			build(root, obj, write);
+			//build(root, obj, write);
+            if (wrriteMD) {
+                obj_md.tree = [];
+                buildMD(root, '', writeMD);
+            }
 		}
 
 
