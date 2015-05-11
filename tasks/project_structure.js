@@ -16,13 +16,16 @@ module.exports = function (grunt) {
 	grunt.registerMultiTask('prostructure', 'Generate markdown code of your project structure tree', function () {
 		
 		var options = this.options({
+	
 			root: './',
+			treeTop: '',
             
-            wrriteMD: true,
-            
-            output: './grunt_project_structure/project_structure.md',
+            writeMD: true,
+			headingMD: '',
+			outputMD: './grunt_project_structure/project_structure.md',
 			
-			writeJSON: false,
+			writeJSON: true,
+			typeJSON: 1,
 			outputJSON: './grunt_project_structure/project_structure.json',
 			filesArrayJSON: 'files_array',
 			filesArrayEmptyJSON: false,
@@ -34,12 +37,14 @@ module.exports = function (grunt) {
 		}),
 			
 			root = options.root,
+			treeTop = options.treeTop,
             
-            wrriteMD = options.wrriteMD,
-			
-			output = options.output,
+            writeMD = options.writeMD,
+			headingMD = options.headingMD,
+			outputMD = options.outputMD,
 			
 			writeJSON = options.writeJSON,
+			typeJSON = options.typeJSON,
 			outputJSON = options.outputJSON,
 			filesArrayJSON = options.filesArrayJSON,
 			filesArrayEmptyJSON = options.filesArrayEmptyJSON,
@@ -48,8 +53,11 @@ module.exports = function (grunt) {
 			spchString,
 			spchIllegal = /[\\:\*\?\"<>|]/,
 			
+			tree,
+			
 			obj = {},
-            obj_md = {},
+            o = {},
+			o_md = o,
 			
 			fatal = 'Can\'t to proceed.',
 			path_start = './',
@@ -107,52 +115,61 @@ module.exports = function (grunt) {
 			}
 		}
 		
-        function buildMD(p, chars, callback) {
-            
-            var arr_p = grunt.file.expand({cwd: p}, '*'),
-				arr_d = [],
-				arr_f = [],
-				arr_t = [],
+		function build(path, chars, branch, draft, callback) {
+			
+			var arr_p = grunt.file.expand({cwd: path}, '*'), // array of current branch
+				arr_d = [],                                  // array of directories
+				arr_f = [],                                  // array of files
+				arr_t = [],                                  // temporary array
 				i,
 				last;
 			
-			count_md += 1;
-            
-            if (arr_p.length > 0) {
+			count += 1;
+			
+			if (arr_p.length > 0) {
                 arr_p.forEach(function (element) {
-                    if (grunt.file.isDir(p + element)) {
+                    if (grunt.file.isDir(path + element)) {
                         arr_d.push(element);
-				    } else if (grunt.file.isFile(p + element)) {
+				    } else if (grunt.file.isFile(path + element)) {
                         arr_f.push(element);
 				    }
                 });
-				
 				arr_t = arr_t.concat(arr_d).concat(arr_f);
 				last = arr_t[arr_t.length - 1];
             }
-            
-            if (arr_d.length > 0) {
-                for (i in arr_d) {
+			
+			if (arr_d.length > 0) {
+				for (i in arr_d) {
 					if (arr_d.hasOwnProperty(i)) {
-						obj_md.tree.push({
-							"name": arr_d[i],
+						
+						branch[arr_d[i]] = {};
+						
+						draft.push({
+							"name": arr_d[i] + '/',
 							"type": "dir",
-							"depth": count_md,
+							"depth": count,
 							"last": arr_d[i] === last ? true : false,
 							"intree": chars + (arr_d[i] === last ? '└── ' : '├── ')
 						});
-						buildMD(p + arr_d[i] + '/', chars + (arr_d[i] === last ? '    ' : '│   '), callback);
+						build(path + arr_d[i] + '/', chars + (arr_d[i] === last ? '    ' : '│   '), branch[arr_d[i]], callback);
 					}
 				}
             }
             
+			if (arr_f.length > 0 || filesArrayEmptyJSON === true) {
+				branch[filesArrayJSON] = [];
+			}
+			
             if (arr_f.length > 0) {
                 for (i in arr_f) {
                     if (arr_f.hasOwnProperty(i)) {
-                        obj_md.tree.push({
+						
+						branch[filesArrayJSON].push(arr_f[i]);
+						
+                        draft.push({
                             "name": arr_f[i],
                             "type": "file",
-							"depth": count_md,
+							"depth": count,
 							"last": arr_f[i] === last ? true : false,
 							"intree": chars + (arr_f[i] === last ? '└── ' : '├── ')
                         });
@@ -160,80 +177,67 @@ module.exports = function (grunt) {
                 }
             }
             
-			count_md -= 1;
-            if (count_md === 0 && callback) {
-				callback();
-			}
-        }
-        
-        function writeMD() {
-			var md_result = '', i;
-			
-			for (i in obj_md.tree) {
-				if (obj_md.tree.hasOwnProperty(i)) {
-					md_result += obj_md.tree[i].intree + obj_md.tree[i].name + '\n';
-				}
-			}
-			
-			grunt.log.write(md_result);
-        }
-        
-		function build(p, b, callback) {
-			
-			var arr_p = grunt.file.expand({cwd: p}, '*'),
-				arr_d = [],
-				arr_f = [],
-				i;
-			
-			count += 1;
-						
-			arr_p.forEach(function (element) {
-				if (grunt.file.isDir(p + element)) {
-					arr_d.push(element);
-				} else if (grunt.file.isFile(p + element)) {
-					arr_f.push(element);
-				}
-				
-			});
-			
-			grunt.log.debug('==========================================================',
-							  '\npath (`p` argument): ', p,
-							  '\nbrunch: (`b` argumebt)', b,
-							  '\narray in path (`arr_p` array): ', arr_p.join(', '),
-							  '\narray of directories (`arr_d` array):', arr_d,
-							  '\narray of files (`arr_f` array): ', arr_f);
-			
-			for (i in arr_d) {
-				if (arr_d.hasOwnProperty(i)) {
-					b[arr_d[i]] = {};
-					
-					build(p + arr_d[i] + '/', b[arr_d[i]], callback);
-				}
-			}
-			
-			if (arr_f.length > 0 || filesArrayEmptyJSON === true) {
-				b[filesArrayJSON] = [];
-			}
-			
-			if (arr_f.length > 0) {
-				for (i in arr_f) {
-					if (arr_f.hasOwnProperty(i)) {
-						b[filesArrayJSON].push(arr_f[i]);
-					}
-				}
-			}
-			
 			count -= 1;
-			if (count === 0 && callback) {
+            if (count === 0 && callback) {
 				callback();
 			}
 			
 		}
-		
+        
 		function write() {
+			
+			var md = '', json, i;
+			
 			if (writeJSON) {
-				grunt.file.write(outputJSON, JSON.stringify(obj, null, 4));
+				
+				if (typeJSON === 1) {
+					
+					json = JSON.parse(JSON.stringify(o));
+					for (i in json.tree) {
+						if (json.tree.hasOwnProperty(i)) {
+							delete json.tree[i].intree;
+						}
+					}
+				}
+				
+				switch (typeJSON) {
+				case 1:
+					grunt.file.write(outputJSON, JSON.stringify(json, null, 4), {encoding: 'utf-8'});
+					break;
+				case 2:
+					//grunt.file.write(outputJSON, JSON.stringify(obj, null, 4), {encoding: 'utf-8'});
+					break;
+				}
+				
 				grunt.log.ok(outputJSON + ' file has been written.');
+			}
+			
+			if (writeMD) {
+				// Add heading if needed
+				if (typeof headingMD === 'string' && headingMD.length > 0) {
+					md += headingMD + '\n```\n';
+				} else {
+					md += '```\n';
+				}
+
+				// change tree top if needed
+				if (typeof treeTop === 'string' && treeTop.length > 0) {
+					md += treeTop + '\n';
+				} else {
+					md += root.replace(/^\.\//, '') + '\n';
+				}
+
+				// write tree
+				for (i in o.tree) {
+					if (o.tree.hasOwnProperty(i)) {
+						md += o.tree[i].intree + o.tree[i].name + '\n';
+					}
+				}
+
+				md += '```';
+
+				grunt.log.debug(md);
+				//grunt.file.write(outputMD, md, {encoding: 'utf-8'});
 			}
 		}
 		
@@ -301,7 +305,15 @@ module.exports = function (grunt) {
 		
 		if (typeof filesArrayEmptyJSON !== 'boolean') {
 			filesArrayEmptyJSON = false;
-			grunt.log.error('Type of `filesArrayEmptyJSON` is not \'boolen\'. It has been set to `false`.');
+			grunt.log.error('Type of `filesArrayEmptyJSON` is not `boolen`.\n' +
+							'It has been set to `false`.');
+		}
+		
+		treeTop = 'filestructure';
+		if (treeTop.length > 0) {
+			tree = treeTop;
+		} else {
+			tree = root.replace(/^\.\//, '').replace(/\/$/, '');
 		}
 		
 		// =====================================================================
@@ -313,15 +325,13 @@ module.exports = function (grunt) {
 							'Only name of existing directory expected.');
 			grunt.fail.fatal(fatal);
 		} else {
-			//build(root, obj, write);
-            if (wrriteMD) {
-                obj_md.tree = [];
-                buildMD(root, '', writeMD);
-            }
+			if (writeMD === true || writeJSON === true) {
+				o.tree = [];
+				build(root, '', obj, o[tree], write);
+			} else {
+				grunt.log.error('None of `writeMD` or `writeJSON` is `true`');
+			}
 		}
-
-
-		
 
 	});
 };
