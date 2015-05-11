@@ -1,4 +1,4 @@
-# grunt-project-structure [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+# grunt-project-structure
 [![npm version](https://img.shields.io/npm/v/grunt-project-structure.svg?style=flat)](https://www.npmjs.com/package/grunt-project-structure) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 [![Build Status](https://travis-ci.org/solovets/grunt-project-structure.svg?branch=master)](https://travis-ci.org/solovets/grunt-project-structure)
 > Generate markdown code of your project structure tree with Grunt.js
